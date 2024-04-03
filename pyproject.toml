@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "OCA Client"
+version = "0.0.1"
+description = ""
+authors = ["Ignacio Castillo <jcastillo@mictlanx.com>"]
+readme = "README.md"
+packages = [{include = "oca"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+option = "^2.1.0"
+humanfriendly = "^10.0"
+pydantic = "^2.6.4"
+requests = "^2.31.0"
+nanoid = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
