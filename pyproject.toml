@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "OCA Client"
-version = "0.0.1"
+name = "goca"
+version = "0.0.2"
 description = ""
 authors = ["Ignacio Castillo <jcastillo@mictlanx.com>"]
 readme = "README.md"
@@ -16,6 +16,7 @@ nanoid = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
+pandas = "1.4.3"
 
 [build-system]
 requires = ["poetry-core"]
