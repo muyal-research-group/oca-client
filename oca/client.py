@@ -120,6 +120,7 @@ class Product(BaseModel):
     profile:str=""
     product_name: str=""
     tags:List[str]=[]
+    url:str =""
 
 
 
@@ -152,7 +153,7 @@ class OCAClient(object):
             return Ok(obid)
         except Exception as e:
             return Err(e)
-    def update_observatory_calotags(self,obid:str, catalogs:List[LevelCatalog]=[])->Result[str,Exception]:
+    def update_observatory_catalogs(self,obid:str, catalogs:List[LevelCatalog]=[])->Result[str,Exception]:
         try:
             url = "{}/{}".format(self.observatories_url,obid)
             _catalogs = list(map(lambda x: x.model_dump() , catalogs))
@@ -195,7 +196,8 @@ class OCAClient(object):
         try:
             if catalog.cid == "":
                 catalog.cid = nanoid(alphabet=OBSERVATORY_ID_ALPHABET, size=OBSERVATORY_ID_SIZE)
-            response = R.post(url=self.catalogs_url,json=catalog.model_dump())
+            data = catalog.model_dump()
+            response = R.post(url=self.catalogs_url,json=data)
             response.raise_for_status()
             return Ok(catalog.cid)
         except Exception as e:
@@ -254,5 +256,13 @@ class OCAClient(object):
             response = R.post(url=self.products_url,json=_products)
             response.raise_for_status()
             return Ok(True)
+        except Exception as e:
+            return Err(e)
+    def delete_product(self,pid:str)->Result[str,Exception]:
+        try:
+            url = "{}/{}".format(self.products_url,pid)
+            response = R.delete(url=url)
+            response.raise_for_status()
+            return Ok(pid)
         except Exception as e:
             return Err(e)
