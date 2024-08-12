@@ -1,11 +1,14 @@
 from typing import List,Dict,Optional
-from pydantic import BaseModel,validator
+from pydantic import BaseModel,field_validator
 import requests as R
 from nanoid import generate as nanoid
 import string
 import os
 from option import Result,Ok,Err
 import json as J
+import re
+
+
 class LevelCatalog(BaseModel):
     level: int
     cid: str
@@ -30,16 +33,19 @@ class Catalog(BaseModel):
     display_name:str = ""
     items: List[CatalogItem] = []
     kind:str = ""
-    @validator("display_name",pre=True)
+    @field_validator("display_name")
     def remove_double_spaces(cls,value):
         x = " ".join(value.split())
         return x
-    @validator("items",pre=True,each_item=True)
-    def remove_double_spaces_in_items(cls,item):
-        if type(item) ==dict:
-            item = CatalogItem(**item)
-        item.display_name = " ".join(item.display_name.split())
-        return item
+    @field_validator("items")
+    def remove_double_spaces_in_items(cls,items):
+        xs = []
+        for item in items:
+            if type(item) ==dict:
+                item = CatalogItem(**item)
+            item.display_name = " ".join(item.display_name.split())
+            xs.append(item)
+        return xs
     
     @staticmethod
     def from_json( path:str)->'Catalog':
@@ -53,7 +59,7 @@ class InequalityFilter(BaseModel):
     lt: Optional[int] = None  # Less than
     eq: Optional[int] = None  # Equal to
 
-    @validator('*', pre=True, always=True)
+    @field_validator('*')
     def empty_str_to_none(cls, v):
         return v if v != "" else None
 
@@ -63,7 +69,7 @@ class InterestFilter(BaseModel):
     inequality: Optional[InequalityFilter] = None
 
     # Ensure either value or inequality is provided, but not both
-    @validator('inequality', always=True)
+    @field_validator('inequality')
     def check_exclusivity(cls, v, values):
         if v and values.get('value'):
             raise ValueError('Provide either a value or an inequality, not both')
@@ -80,20 +86,28 @@ class SpatialFilter(BaseModel):
     state: str
     municipality: str
     def make_regex(self):
-        x = "^"
-        if self.country =="*":
-            x +="*"
-        else:
-            x += "{}".format(self.country)
-        if self.state =="*":
-            x +="\.*"
-        else:
-            x += "\.{}".format(self.state)
-        if self.municipality =="*":
-            x +="\.*"
-        else:
-            x += "\.{}".format(self.municipality)
-        return x.upper()
+        pattern = "^"
+        pattern += re.escape(self.country) if self.country != "*" else ".*"
+        pattern += r"\."
+        pattern += re.escape(self.state) if self.state != "*" else ".*"
+        pattern += r"\."
+        pattern += re.escape(self.municipality) if self.municipality != "*" else ".*"
+        return pattern.upper()
+    # def make_regex(self):
+    #     x = "^"
+    #     if self.country =="*":
+    #         x +="*"
+    #     else:
+    #         x += "{}".format(self.country)
+    #     if self.state =="*":
+    #         x +="\.*"
+    #     else:
+    #         x += "\.{}".format(self.state)
+    #     if self.municipality =="*":
+    #         x +="\.*"
+    #     else:
+    #         x += "\.{}".format(self.municipality)
+    #     return x.upper()
         
 
         # return "{}".format()
