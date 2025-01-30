@@ -1,0 +1,30 @@
+  {
+  "pid": "12004guerreronikfgn",
+  "description": "No description yet.",
+  "levels": [
+    {
+      "index": 0,
+      "cid": "iarcgroup59fc8ab669e7",
+      "value": "1",
+      "kind": "INTEREST"
+    },
+    {
+      "index": 1,
+      "cid": "states8ce52701ba74",
+      "value": "GUERRERO",
+      "kind": "SPATIAL"
+    },
+    {
+      "index": 2,
+      "cid": "year20042022",
+      "value": "2004",
+      "kind": "TEMPORAL"
+    }
+  ],
+  "product_type": "PRODUCT",
+  "level_path": "IARC.YEAR.STATE",
+  "profile": "1.2004.GUERRERO",
+  "product_name": "1-2004-GUERRERO",
+  "tags": [],
+  "url": "https://alpha.tamps.cinvestav.mx/v0/mictlanx/router/api/v4/buckets/riskcalculatorobservatory/12004guerreronikfgn"
+}

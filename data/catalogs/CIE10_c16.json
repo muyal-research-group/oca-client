@@ -1,0 +1,16 @@
+{
+    "cid":"cie10c163fb25a076cf021f2",
+    "display_name":"CIE10",
+    "items":[
+        {
+            "value": "C16",
+            "display_name": "Cáncer de estómago - C16",
+            "code": 0,
+            "description": "Cáncer de Estómago",
+            "metadata": {
+                "organization": "Cáncer de estómago consiste en un crecimiento de células que comienza en el estómago." 
+            }
+        }
+    ],
+    "kind":"INTEREST"
+}

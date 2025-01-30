@@ -93,25 +93,6 @@ class SpatialFilter(BaseModel):
         pattern += r"\."
         pattern += re.escape(self.municipality) if self.municipality != "*" else ".*"
         return pattern.upper()
-    # def make_regex(self):
-    #     x = "^"
-    #     if self.country =="*":
-    #         x +="*"
-    #     else:
-    #         x += "{}".format(self.country)
-    #     if self.state =="*":
-    #         x +="\.*"
-    #     else:
-    #         x += "\.{}".format(self.state)
-    #     if self.municipality =="*":
-    #         x +="\.*"
-    #     else:
-    #         x += "\.{}".format(self.municipality)
-    #     return x.upper()
-        
-
-        # return "{}".format()
-
 
 
 class ProductFilter(BaseModel):

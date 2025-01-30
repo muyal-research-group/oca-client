@@ -1,0 +1,39 @@
+{
+    "cid":"plottype3fb25a076cf021f2",
+    "display_name":"Tipo de gráfica",
+    "items":[
+        {
+            "value": "BARPLOTS",
+            "display_name": "Gráficos de barras",
+            "code": 0,
+            "description": "",
+            "metadata": {
+            }
+        },
+        {
+            "value": "TRENDS",
+            "display_name": "Línea de tendencia",
+            "code": 1,
+            "description": "",
+            "metadata": {
+            }
+        },
+        {
+            "value": "MAPS",
+            "display_name": "Mapas",
+            "code": 2,
+            "description": "",
+            "metadata": {
+            }
+        },
+        {
+            "value": "JOINTPOINT",
+            "display_name": "Jointpoint",
+            "code": 3,
+            "description": "",
+            "metadata": {
+            }
+        }
+    ],
+    "kind":"INTEREST"
+}

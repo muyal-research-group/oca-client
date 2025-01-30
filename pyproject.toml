@@ -13,11 +13,17 @@ humanfriendly = "^10.0"
 pydantic = "^2.6.4"
 requests = "^2.31.0"
 nanoid = "^2.0.0"
+mictlanx = "^0.0.160"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
 pandas = "1.4.3"
 numpy = "01.24"
+
+[[tool.poetry.source]]
+name = "test"
+url = "https://test.pypi.org/simple/"
+priority = "supplemental"
 
 [build-system]
 requires = ["poetry-core"]

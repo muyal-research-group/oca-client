@@ -1,4 +1,5 @@
 log/
 *.lock
 dist/
+data/c16/
 **/**/__pycache__
