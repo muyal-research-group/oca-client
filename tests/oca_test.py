@@ -30,11 +30,11 @@ client = Client(
 
 class TestOCAPI(unittest.TestCase):
 
-    # oca_client = OCAClient(
-        # hostname="localhost",
-        # port=5000
-    # )
-    oca_client = OCAClient(hostname="alpha.tamps.cinvestav.mx/ocapi",port=-1)
+    oca_client = OCAClient(
+        hostname="localhost",
+        port=5000
+    )
+    # oca_client = OCAClient(hostname="alpha.tamps.cinvestav.mx/ocapi",port=-1)
     
 
 
@@ -42,8 +42,8 @@ class TestOCAPI(unittest.TestCase):
     def test_create_observatory(self):
         res = TestOCAPI.oca_client.create_observatory(
             observatory= Observatory(
-                title="Mortalidad por Cáncer de Estómago",
-                description="Un observatorio de cáncer de estómago enfocado en la visualización de tendencias permite analizar gráficos que muestran la evolución de la mortalidad por este tipo de cáncer en función variables de espaciales, temporales, sexo y edad."
+                title="Prueba 01",
+                description="Deatils"
             )
         )
         return self.assertTrue(res.is_ok)
@@ -54,7 +54,13 @@ class TestOCAPI(unittest.TestCase):
         # catalog   = Catalog.from_json("/home/nacho/Programming/Python/oca-api/data/iarc_groups_catalog.json")
         # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-api/data/states_new.json")
         # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca_api/data/year_new.json")
-        catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/plot_type.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/years.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/iarc.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/contaminantes.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/product_type.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/states.json")
+        # catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/sustancias.json")
+        catalog = Catalog.from_json("/home/nacho/Programming/Python/oca-client/data/catalogs/transferencias.json")
         res     = TestOCAPI.oca_client.create_catalog(catalog=catalog)
         print(res)
         return self.assertTrue(res.is_ok)
@@ -105,15 +111,18 @@ class TestOCAPI(unittest.TestCase):
 
     @unittest.skip("")
     def test_update_observatory_catalogs(self):     
-        obid = "o5v695jllc3b"
+        obid = "0z1gdxcb5ne4"
 
         catalogs = [
-            # LevelCatalog(level=0, cid="iarcgroup59fc8ab669e7"),
+            LevelCatalog(level=0, cid="years20042022"),
+            LevelCatalog(level=1, cid="iarcgroups"),
+            LevelCatalog(level=2, cid="substances"),
+            LevelCatalog(level=3, cid="federativeentities"),
+            LevelCatalog(level=4, cid="municipios"),
+            LevelCatalog(level=5, cid="emisionestransferencias"),
+            LevelCatalog(level=6, cid="producttypes"),
             # LevelCatalog(level=1, cid="states8ce52701ba74"),
             # LevelCatalog(level=0, cid="year20042022x"),
-            LevelCatalog(level=0, cid="cie10c163fb25a076cf021f2"),
-            LevelCatalog(level=1, cid="sex3fb25a076cf021f2"),
-            LevelCatalog(level=2, cid="plottype3fb25a076cf021f2"),
         ]
         update_res = TestOCAPI.oca_client.update_observatory_catalogs(
             obid=obid,
@@ -187,7 +196,7 @@ class TestOCAPI(unittest.TestCase):
         res = TestOCAPI.oca_client.get_catalog(cid = cid)
         return self.assertTrue(res.is_ok)
    
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_get_catalogs(self):
         res = TestOCAPI.oca_client.get_catalogs()
         return self.assertTrue(res.is_ok)
@@ -275,6 +284,7 @@ class TestOCAPI(unittest.TestCase):
         return self.assertTrue(res.is_ok)
 
 
+    @unittest.skip("")
     def delete_product(pid:str)->bool:
         res = TestOCAPI.oca_client.delete_product(pid=pid)
         if res.is_ok:
