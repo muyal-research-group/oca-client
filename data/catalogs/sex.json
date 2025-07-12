@@ -1,0 +1,31 @@
+{
+    "cid":"sex3fb25a076cf021f2",
+    "display_name":"Sexo",
+    "items":[
+        {
+            "value": "HOMBRE",
+            "display_name": "Hombre",
+            "code": 0,
+            "description": "Hombre",
+            "metadata": {
+            }
+        },
+        {
+            "value": "MUJER",
+            "display_name": "Mujer",
+            "code": 1,
+            "description": "Mujer",
+            "metadata": {
+            }
+        },
+        {
+            "value": "*",
+            "display_name": "Todos",
+            "code": 1,
+            "description": "Todos",
+            "metadata": {
+            }
+        }
+    ],
+    "kind":"INTEREST"
+}
