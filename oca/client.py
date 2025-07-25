@@ -5,9 +5,16 @@ import string
 import os
 from option import Result,Ok,Err
 from oca.dto import *
+import time as T
+from oca.log import Log 
+import logging
 
-
-
+log = Log(
+    name                   = "prueba_miguel" ,
+    path                   = "/log" ,
+    console_handler_filter = lambda record: True ,
+    file_handler_filter    = lambda record: record.levelno == logging.INFO
+)
 
 OBSERVATORY_ID_SIZE = int(os.environ.get("OBSERVATORY_ID_SIZE","12"))
 OBSERVATORY_ID_ALPHABET  = string.ascii_lowercase+string.digits 
@@ -18,6 +25,7 @@ class OCAClient(object):
         self.observatories_url = "{}/observatories".format(self.base_url)
         self.catalogs_url = "{}/catalogs".format(self.base_url)
         self.products_url = "{}/products".format(self.base_url)
+
     def create_observatory(self, observatory:Observatory)->Result[str,Exception]:
         try:
             if observatory.image_url == "":
@@ -105,15 +113,32 @@ class OCAClient(object):
             return Ok(Catalog(**data))
         except Exception as e:
             return Err(e)
+    
     def get_catalogs(self)->Result[List[Catalog],Exception]:
         try:
+            # Estampa de tiempo inicial
+            t1 = T.time()
+            # Flecha punteada negra
             response = R.get(url=self.catalogs_url)
+            # Verificador de errores
             response.raise_for_status()
-            data = response.json()
+            # Flecha punteda roja
+            data     = response.json()
+
             catalogs = list(map(lambda x: Catalog(**x), data))
+            t2 = T.time()
+            response_time = t2 - t1
+            log.info({
+                "event":"GET.CATALOGS",
+                "start_time":t1,
+                "end_time":t2,
+                "url":self.catalogs_url,
+                "response_time":response_time
+            })
             return Ok(catalogs)
         except Exception as e:
             return Err(e)
+    
     def get_products(self,skip:int = 0, limit:int = 10)->Result[List[Product],Exception]:
         try:
             url = "{}?skip={}&limit={}".format(self.products_url,skip,limit)
@@ -124,6 +149,7 @@ class OCAClient(object):
             return Ok(products)
         except Exception as e:
             return Err(e)
+    
     def query_products(self,obid:str, filter:ProductFilter ,skip:int = 0, limit:int = 100 ):
         try:
             url = "{}/{}/products/nid".format(self.observatories_url,obid)
@@ -135,6 +161,7 @@ class OCAClient(object):
             return Ok(products)
         except Exception as e:
             return Err(e)
+    
     def create_products(self,products:List[Product]=[])->Result[bool, Exception]:
         try:
             _products = list(map(lambda x : x.model_dump(),products))

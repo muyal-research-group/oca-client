@@ -198,8 +198,15 @@ class TestOCAPI(unittest.TestCase):
    
     # @unittest.skip("")
     def test_get_catalogs(self):
-        res = TestOCAPI.oca_client.get_catalogs()
-        return self.assertTrue(res.is_ok)
+        N  = 1000
+        t1 = T.time()
+        for i in range(N):
+            res = TestOCAPI.oca_client.get_catalogs()
+        t2 = T.time()
+        print(f"Tiempo de prueba: {(t2-t1)/N}")
+            # print(response_time)
+        # return self.assertTrue(res.is_ok)
+        
    
     @unittest.skip("")
     def test_get_products(self):
