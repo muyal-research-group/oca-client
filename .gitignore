@@ -1,4 +1,3 @@
-log/
 *.lock
 dist/
 data/**/*
